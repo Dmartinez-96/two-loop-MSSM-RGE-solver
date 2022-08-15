@@ -2270,7 +2270,7 @@ def my_RGE_solver(GUT_BCs):
         dmQ3_sq_dt_2l = ((-8) * (mQ3_sq_val + mHu_sq_val + mU3_sq_val)
                          * np.power(yt_val, 4))\
             - (8 * (mQ3_sq_val + mHd_sq_val + mD3_sq_val)
-               * np.power(yt_val, 4))\
+               * np.power(yb_val, 4))\
             - (((2 * mQ3_sq_val) + (2 * mU3_sq_val) + (4 * mHu_sq_val)) # Tr(3Yu^2)
                * 3 * (np.power(yt_val, 2) + np.power(yc_val, 2)
                       + np.power(yu_val, 2)))\ # end trace
@@ -2343,9 +2343,157 @@ def my_RGE_solver(GUT_BCs):
             + (3 * np.power(g2_val, 2) * sigma2)\
             + ((1 / 15) * np.power(g1_val, 2) * sigma1)
 
-        dmQ2_sq_dt_2l =
+        dmQ2_sq_dt_2l = ((-8) * (mQ2_sq_val + mHu_sq_val + mU2_sq_val)
+                         * np.power(yc_val, 4))\
+            - (8 * (mQ2_sq_val + mHd_sq_val + mD2_sq_val)
+               * np.power(ys_val, 4))\
+            - (((2 * mQ2_sq_val) + (2 * mU2_sq_val) + (4 * mHu_sq_val)) # Tr(3Yu^2)
+               * 3 * (np.power(yt_val, 2) + np.power(yc_val, 2)
+                      + np.power(yu_val, 2)))\ # end trace
+            - (((2 * mQ2_sq_val) + (2 * mD2_sq_val) + (4 * mHd_sq_val)) # Tr(3Yd^2 + Ye^2)
+               * ((3 * (np.power(yb_val, 2) + np.power(ys_val, 2)
+                        + np.power(yd_val, 2)))
+                  + np.power(ytau_val, 2) + np.power(ymu_val, 2)
+                  + np.power(ye_val, 2)))\ # end trace
+            - (6 * np.power(yc_val, 2) # Tr((mQ^2 + mU^2) * Yu^2)
+               * (((mQ3_sq_val + mU3_sq_val) * np.power(yt_val, 2))
+                  + ((mQ2_sq_val + mU2_sq_val) * np.power(yc_val, 2))
+                  + ((mQ1_sq_val + mU1_sq_val) * np.power(yu_val, 2))))\ # end trace
+            - (np.power(ys_val, 2) # Tr(6(mQ^2 + mD^2) * Yd^2 + 2(mL^2 + mE^2) * Ye^2)
+               * ((6 * (((mQ3_sq_val + mD3_sq_val) * np.power(yb_val, 2))
+                        + ((mQ2_sq_val + mD2_sq_val) * np.power(ys_val, 2))
+                        + ((mQ1_sq_val + mD1_sq_val) * np.power(yd_val, 2))))
+                  + (2 * (((mL3_sq_val + mE3_sq_val) * np.power(ytau_val, 2))
+                          + ((mL2_sq_val + mE2_sq_val) * np.power(ymu_val, 2))
+                          + ((mL1_sq_val + mE1_sq_val) * np.power(ye_val, 2)))) # end trace
+                  ))\
+            - (16 * np.power(yc_val, 2) * np.power(ac_val, 2))\
+            - (16 * np.power(ys_val, 2) * np.power(as_val, 2))\
+            - (np.power(ac_val, 2) # Tr(6Yu^2)
+               * 6 * (np.power(yt_val, 2) + np.power(yc_val, 2)
+                      + np.power(yu_val, 2)))\ # end trace
+            - (np.power(yc_val, 2) # Tr(6au^2)
+               * 6 * (np.power(at_val, 2) + np.power(ac_val, 2)
+                      + np.power(au_val, 2)))\ # end trace
+            - (ac_val * yc_val # Tr(12Yu*au)
+               * 12 * ((yt_val * at_val) + (yc_val * ac_val)
+                       + (yu_val * au_val)))\ # end trace
+            - (np.power(as_val, 2) # Tr(6Yd^2 + 2Ye^2)
+               * ((6 * (np.power(yb_val, 2) + np.power(ys_val, 2)
+                        + np.power(yd_val, 2)))
+                  + (2 * (np.power(ytau_val, 2) + np.power(ymu_val, 2)
+                          + np.power(ye_val, 2)))))\ # end trace
+            - (np.power(ys_val, 2) # Tr(6ad^2 + 2ae^2)
+               * ((6 * (np.power(ab_val, 2) + np.power(as_val, 2)
+                        + np.power(ad_val, 2)))
+                  + (2 * (np.power(atau_val, 2) + np.power(amu_val, 2)
+                          + np.power(ae_val, 2)))))\ # end trace
+            - (2 * as_val * ys_val # Tr(6Yd * ad + 2Ye * ae)
+               * ((6 * ((yb_val * ab_val) + (ys_val * as_val)
+                        + (yd_val * ad_val)))
+                  + (2 * ((ytau_val * atau_val) + (ymu_val * amu_val)
+                          + (ye_val * ae_val)))))\ # end trace
+            + ((2 / 5) * np.power(g1_val, 2)
+               * ((4 * (mQ2_sq_val + mHu_sq_val + mU2_sq_val)
+                   * np.power(yc_val, 2))
+                  + (4 * np.power(ac_val, 2)) - (8 * M1_val * ac_val * yc_val)
+                  + (8 * np.power(M1_val, 2) * np.power(yc_val, 2))
+                  + (2 * (mQ2_sq_val + mHd_sq_val + mD2_sq_val)
+                     * np.power(ys_val, 2))
+                  + (2 * np.power(as_val, 2)) - (4 * M1_val * as_val * ys_val)
+                  + (4 * np.power(M1_val, 2) * np.power(ys_val, 2))))\
+            + ((2 / 5) * np.power(g1_val, 2) * Spr_val)\
+            - ((128 / 3) * np.power(g3_val, 4) * np.power(M3_val, 2))\
+            + (32 * np.power(g3_val, 2) * np.power(g2_val, 2)
+               * (np.power(M3_val, 2) + np.power(M2_val, 2)
+                  + (M2_val * M3_val)))\
+            + ((32 / 45) * np.power(g3_val, 2) * np.power(g1_val, 2)
+               * (np.power(M3_val, 2) + np.power(M1_val, 2)
+                  + (M3_val * M1_val)))\
+            + (33 * np.power(g2_val, 4) * np.power(M2_val, 2))\
+            + ((2 / 5) * np.power(g2_val, 2) * np.power(g1_val, 2)
+               * (np.power(M1_val, 2) + np.power(M2_val, 2)
+                  + (M1_val * M2_val)))\
+            + ((199 / 75) * np.power(g1_val, 4) * np.power(M1_val, 2))\
+            + ((16 / 3) * np.power(g3_val, 2) * sigma3)\
+            + (3 * np.power(g2_val, 2) * sigma2)\
+            + ((1 / 15) * np.power(g1_val, 2) * sigma1)
 
-        dmQ1_sq_dt_2l =
+        dmQ1_sq_dt_2l = ((-8) * (mQ1_sq_val + mHu_sq_val + mU1_sq_val)
+                         * np.power(yu_val, 4))\
+            - (8 * (mQ1_sq_val + mHd_sq_val + mD1_sq_val)
+               * np.power(yd_val, 4))\
+            - (((2 * mQ1_sq_val) + (2 * mU1_sq_val) + (4 * mHu_sq_val)) # Tr(3Yu^2)
+               * 3 * (np.power(yt_val, 2) + np.power(yc_val, 2)
+                      + np.power(yu_val, 2)))\ # end trace
+            - (((2 * mQ1_sq_val) + (2 * mD1_sq_val) + (4 * mHd_sq_val)) # Tr(3Yd^2 + Ye^2)
+               * ((3 * (np.power(yb_val, 2) + np.power(ys_val, 2)
+                        + np.power(yd_val, 2)))
+                  + np.power(ytau_val, 2) + np.power(ymu_val, 2)
+                  + np.power(ye_val, 2)))\ # end trace
+            - (6 * np.power(yu_val, 2) # Tr((mQ^2 + mU^2) * Yu^2)
+               * (((mQ3_sq_val + mU3_sq_val) * np.power(yt_val, 2))
+                  + ((mQ2_sq_val + mU2_sq_val) * np.power(yc_val, 2))
+                  + ((mQ1_sq_val + mU1_sq_val) * np.power(yu_val, 2))))\ # end trace
+            - (np.power(yd_val, 2) # Tr(6(mQ^2 + mD^2) * Yd^2 + 2(mL^2 + mE^2) * Ye^2)
+               * ((6 * (((mQ3_sq_val + mD3_sq_val) * np.power(yb_val, 2))
+                        + ((mQ2_sq_val + mD2_sq_val) * np.power(ys_val, 2))
+                        + ((mQ1_sq_val + mD1_sq_val) * np.power(yd_val, 2))))
+                  + (2 * (((mL3_sq_val + mE3_sq_val) * np.power(ytau_val, 2))
+                          + ((mL2_sq_val + mE2_sq_val) * np.power(ymu_val, 2))
+                          + ((mL1_sq_val + mE1_sq_val) * np.power(ye_val, 2)))) # end trace
+                  ))\
+            - (16 * np.power(yu_val, 2) * np.power(au_val, 2))\
+            - (16 * np.power(yd_val, 2) * np.power(ad_val, 2))\
+            - (np.power(au_val, 2) # Tr(6Yu^2)
+               * 6 * (np.power(yt_val, 2) + np.power(yc_val, 2)
+                      + np.power(yu_val, 2)))\ # end trace
+            - (np.power(yu_val, 2) # Tr(6au^2)
+               * 6 * (np.power(at_val, 2) + np.power(ac_val, 2)
+                      + np.power(au_val, 2)))\ # end trace
+            - (au_val * yu_val # Tr(12Yu*au)
+               * 12 * ((yt_val * at_val) + (yc_val * ac_val)
+                       + (yu_val * au_val)))\ # end trace
+            - (np.power(ad_val, 2) # Tr(6Yd^2 + 2Ye^2)
+               * ((6 * (np.power(yb_val, 2) + np.power(ys_val, 2)
+                        + np.power(yd_val, 2)))
+                  + (2 * (np.power(ytau_val, 2) + np.power(ymu_val, 2)
+                          + np.power(ye_val, 2)))))\ # end trace
+            - (np.power(yd_val, 2) # Tr(6ad^2 + 2ae^2)
+               * ((6 * (np.power(ab_val, 2) + np.power(as_val, 2)
+                        + np.power(ad_val, 2)))
+                  + (2 * (np.power(atau_val, 2) + np.power(amu_val, 2)
+                          + np.power(ae_val, 2)))))\ # end trace
+            - (2 * ad_val * yd_val # Tr(6Yd * ad + 2Ye * ae)
+               * ((6 * ((yb_val * ab_val) + (ys_val * as_val)
+                        + (yd_val * ad_val)))
+                  + (2 * ((ytau_val * atau_val) + (ymu_val * amu_val)
+                          + (ye_val * ae_val)))))\ # end trace
+            + ((2 / 5) * np.power(g1_val, 2)
+               * ((4 * (mQ1_sq_val + mHu_sq_val + mU1_sq_val)
+                   * np.power(yu_val, 2))
+                  + (4 * np.power(au_val, 2)) - (8 * M1_val * au_val * yu_val)
+                  + (8 * np.power(M1_val, 2) * np.power(yu_val, 2))
+                  + (2 * (mQ1_sq_val + mHd_sq_val + mD1_sq_val)
+                     * np.power(yd_val, 2))
+                  + (2 * np.power(ad_val, 2)) - (4 * M1_val * ad_val * yd_val)
+                  + (4 * np.power(M1_val, 2) * np.power(yd_val, 2))))\
+            + ((2 / 5) * np.power(g1_val, 2) * Spr_val)\
+            - ((128 / 3) * np.power(g3_val, 4) * np.power(M3_val, 2))\
+            + (32 * np.power(g3_val, 2) * np.power(g2_val, 2)
+               * (np.power(M3_val, 2) + np.power(M2_val, 2)
+                  + (M2_val * M3_val)))\
+            + ((32 / 45) * np.power(g3_val, 2) * np.power(g1_val, 2)
+               * (np.power(M3_val, 2) + np.power(M1_val, 2)
+                  + (M3_val * M1_val)))\
+            + (33 * np.power(g2_val, 4) * np.power(M2_val, 2))\
+            + ((2 / 5) * np.power(g2_val, 2) * np.power(g1_val, 2)
+               * (np.power(M1_val, 2) + np.power(M2_val, 2)
+                  + (M1_val * M2_val)))\
+            + ((199 / 75) * np.power(g1_val, 4) * np.power(M1_val, 2))\
+            + ((16 / 3) * np.power(g3_val, 2) * sigma3)\
+            + (3 * np.power(g2_val, 2) * sigma2)\
+            + ((1 / 15) * np.power(g1_val, 2) * sigma1)
 
         # Left leptons
         dmL3_sq_dt_2l =
